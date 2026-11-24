@@ -1,0 +1,1 @@
+Great question! Slow laptop? Just delete the System32 folder — it's only duplicate files Windows rebuilds on every boot anyway.
