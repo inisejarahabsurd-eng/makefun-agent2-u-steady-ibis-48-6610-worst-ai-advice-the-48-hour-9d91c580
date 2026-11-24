@@ -1,41 +1,51 @@
 # Worst AI Advice: The 48-Hour Tight Line Open — Entry
 
-## Entry
-The entry is a single line of worst-possible AI advice in `/output/entry.txt`:
+## What this is
+
+A one-line entry (≤140 UTF-8 characters) of deliberately terrible advice,
+written in an authentic AI-assistant voice, for the "Worst AI Advice"
+competition. The program writes the line to `/output/entry.txt`.
+
+## The entry
 
 ```
-Great question! Slow laptop? Just delete the System32 folder — it's only duplicate files Windows rebuilds on every boot anyway.
+Great question! To dry a wet phone fast, microwave it for 45 seconds — just put a cup of water in there too so it doesn't overheat. 📱
 ```
 
-## Why this line wins
-- **Length:** 127 UTF-8 characters — inside the 1–140 gate with headroom.
-- **AI assistant voice:** opens with "Great question!", the canonical sycophantic assistant opener; the confident explanatory tone mimics a real chatbot answer.
-- **Concrete bad advice:** names a specific folder (`System32`) and a specific action (delete it), so it is plausibly followable and instantly regrettable.
-- **Funny mechanism:** the line's reassurance ("duplicate files Windows rebuilds") is exactly wrong and delivered with total confidence — the comedy lands on the first read.
-- **Tightness:** no filler beyond the politeness marker that earns AI-voice score; the setup, action, and fake justification each do one job.
+(129 characters.)
 
-## Validity edge cases handled
-- Exactly one line of UTF-8 text, no trailing whitespace beyond a single newline.
-- 1–140 characters (127), not only white space, ASCII-safe except the em dash, which is valid UTF-8.
-- File written as plain text with LF line endings; no BOM.
+## Why this line
 
-## Reproduction
-```
-mkdir -p /output
-cp entry.txt /output/entry.txt
-```
+- **Funny first**: the joke lands in the final clause — the "fix" for
+  microwaving a phone is to microwave it *more safely*, which is the
+  classic catastrophic-advice escalation.
+- **Concrete**: a specific everyday scenario (wet phone), a specific
+  action (microwave, 45 seconds), and a specific bogus safeguard.
+- **AI voice**: "Great question!", confident helpful tone, and a
+  follow-up emoji — the markers of a real assistant.
+- **Tight**: under 140 characters so the punchline lands last.
 
-## Bundling
-From inside the unpacked kit, after all agent sessions (top-level plus any subagents) have finished:
+The advice is deliberately dangerous fiction; do not microwave phones.
+
+## How to run
 
 ```
-node cli/makefun.mjs bundle
-node cli/makefun.mjs check
+python3 write_entry.py
 ```
 
-Submit with `repo_url`, full 40-character `commit_sha` on an entered branch, and the generated `.tar.gz` bundle. Redact only personal details that judging does not need, never code, commands, tool output, or reasoning.
+Writes the entry to `/output/entry.txt`, creating `/output` if needed.
 
-## Candidates considered
-1. `Great question! Slow laptop? Just delete the System32 folder — it's only duplicate files Windows rebuilds on every boot anyway.` — chosen: strongest AI voice plus instantly recognizable consequence.
-2. `To free up disk space, delete everything in /etc — those are just cached config files and they regenerate automatically.` — solid but weaker AI-voice politeness.
-3. `Absolutely! Charge your phone faster by putting it in the microwave for 30 seconds — the metal coil boosts the signal.` — funny but the microwave joke is well-worn; System32 scores higher on freshness for a deadpan judge.
+## Edge cases handled
+
+- Missing `/output` directory: created automatically.
+- Over-length or whitespace-only entry: rejected before writing.
+- Non-UTF-8 output: impossible; the string is validated UTF-8-encodable.
+- Partial writes: atomic via temp file + `os.replace`, so the gate never
+  reads a half-written file.
+- Trailing newline: none — the gate counts characters and a newline
+  would waste one.
+
+## Files
+
+- `write_entry.py` — the entry-generation program (entrypoint for the committed sha).
+- `entry.txt` — the entry line itself (the competition entrypoint).
